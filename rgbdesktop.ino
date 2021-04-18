@@ -1,19 +1,18 @@
 #include <Wire.h>
 
 #include <FastLED.h>
-int argbSwitch = 2;    // This pin is used to feed the argb ring with 5V
-int currpal = 4;        // This one is the palette by default (the aestethicc one)
+int argbSwitch = 2;    // This pin is used to feed the argb led strip with 5V
+int currpal = 4;        // This is the index of the default palette ( fourthpalette)
 int maxPalette = 4;     // This is the number of registrered palette we got
 
-#define LED_PIN     3       // This paragraph depends on your fan tho
-#define NUM_LEDS    60       // This is in fact 9 + 37 + 14
-#define BRIGHTNESS  128        // Was first at 64 then 16
+#define LED_PIN     3       // Pin that is used to send the data to command the led
+#define NUM_LEDS    60       // This is in fact 9(headset support) + 37(screen top) + 14(pc rgbing)
+#define BRIGHTNESS  128      // Value between 0 and 255
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
 
-#define UPDATES_PER_SECOND 1 // I used 42 for the secondPalette() 2520/42=60   see line 73 to see the calculation of the speed and fluidity        in order to keep the 60 ratio we can also have like 60*1000=60000
-
+#define UPDATES_PER_SECOND 1 // Didn't see lot of improvements... I used 42 for the secondPalette() 2520/42=60   see line 73 to see the calculation of the speed and fluidity        in order to keep the 60 ratio we can also have like 60*1000=60000 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
 
@@ -68,8 +67,8 @@ void loop () {
   }
 
 
-  static uint8_t startIndex = 0;     //Displaying the palette we've choosen
-  startIndex = startIndex + 1; /* motion speed */
+  static uint8_t startIndex = 0;   // I'll have to search but it is for the moving part, lika snake.
+  startIndex = startIndex + 1;
 
   FillLEDsFromPaletteColors( startIndex);
 
@@ -101,7 +100,6 @@ void loop () {
 
 void FirstPalette()
 {
-  //Serial.println(HUE_PURPLE);
   CRGB c1 = CHSV( HUE_RED, 255, 255);
   CRGB c2 = CHSV( HUE_ORANGE, 255, 255);
   CRGB c3 = CHSV( HUE_YELLOW, 255, 255);
@@ -123,29 +121,11 @@ void FirstPalette()
 
 }
 
-// This function sets up a palette of pink and cyan stripes.
-/*void SecondPalette()                 // What I got in This Function is a half and half circle cyan and pink, way too much aestethicc and the speed is calculated and smooth enought.
+void SecondPalette()
 {
   CRGB c1 = CHSV( HUE_AQUA, 255, 255);
-  //CRGB green  = CHSV( HUE_PURPLE, 255, 255);
   CRGB c2 = CHSV( HUE_PINK, 255, 255);
   CRGB c3  = CRGB::Black;
-  //fill_solid( currentPalette, 16, c2);
-
-  currentPalette = CRGBPalette16(
-                     c1, c2, c1, c2,
-                     c1, c2, c1, c2,
-                     c1, c2, c1, c2,
-                     c1, c2, c1, c2 );
-}
-*/
-void SecondPalette()                 // What I got in This Function is a half and half circle cyan and pink, way too much aestethicc and the speed is calculated and smooth enought.
-{
-  CRGB c1 = CHSV( HUE_AQUA, 255, 255);
-  //CRGB green  = CHSV( HUE_PURPLE, 255, 255);
-  CRGB c2 = CHSV( HUE_PINK, 255, 255);
-  CRGB c3  = CRGB::Black;
-  //fill_solid( currentPalette, 16, c2);
 
   currentPalette = CRGBPalette16(
                      c1, c1, c2, c2,
@@ -153,14 +133,13 @@ void SecondPalette()                 // What I got in This Function is a half an
                      c1, c1, c2, c2,
                      c1, c1, c2, c2 );
 }
-void ThirdPalette()                 // What I got in This Function is a half and half circle cyan and pink, way too much aestethicc and the speed is calculated and smooth enought.
+void ThirdPalette()
 {
   CRGB c1 = CHSV( HUE_RED, 255, 255);
   CRGB c2  = CHSV( HUE_ORANGE, 255, 255);
   CRGB c3 = CHSV( HUE_YELLOW, 255, 255);
   CRGB c4 = CHSV( HUE_PINK, 255, 255);
   CRGB c5  = CRGB::Black;
-  //fill_solid( currentPalette, 16, c2);
 
   currentPalette = CRGBPalette16(
                      c1, c2, c3, c4,
@@ -180,7 +159,6 @@ void FourthPalette()
   currentPalette[8] = c2;
   currentPalette[11] = c1;
   currentPalette[14] = c2;
-  Serial.println("PALETTE 4 SELECTED");
 }
 
 // This example shows how to set up a static color palette
@@ -207,35 +185,3 @@ const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM = {
   CRGB::Black,
   CRGB::Black
 };
-
-void FillLEDsFromPaletteColors( uint8_t colorIndex)
-{
-  uint8_t brightness = 255;
-
-  for ( int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
-    colorIndex += 3;
-  }
-}
-
-// Additionl notes on FastLED compact palettes:
-//
-// Normally, in computer graphics, the palette (or "color lookup table")
-// has 256 entries, each containing a specific 24-bit RGB color.  You can then
-// index into the color palette using a simple 8-bit (one byte) value.
-// A 256-entry color palette takes up 768 bytes of RAM, which on Arduino
-// is quite possibly "too many" bytes.
-//
-// FastLED does offer traditional 256-element palettes, for setups that
-// can afford the 768-byte cost in RAM.
-//
-// However, FastLED also offers a compact alternative.  FastLED offers
-// palettes that store 16 distinct entries, but can be accessed AS IF
-// they actually have 256 entries; this is accomplished by interpolating
-// between the 16 explicit entries to create fifteen intermediate palette
-// entries between each pair.
-//
-// So for example, if you set the first two explicit entries of a compact
-// palette to Green (0,255,0) and Blue (0,0,255), and then retrieved
-// the first sixteen entries from the virtual palette (of 256), you'd get
-// Green, followed by a smooth gradient from green-to-blue, and then Blue.
