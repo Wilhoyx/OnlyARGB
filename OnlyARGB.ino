@@ -44,10 +44,12 @@ void setup() {
     j++;
   }
   Serial.println("Hello!");
-  digitalWrite(argbSwitch, HIGH);           // This means that once the init done we light the argb on on the default palette
 }
 void loop () {
-  
+ 
+  while(!Serial){
+	digitalWrite(argbSwitch, HIGH);
+} 
   static uint8_t startIndex = 0;
   if (currpal == 1){
     FirstPalette();
