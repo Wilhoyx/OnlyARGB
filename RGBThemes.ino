@@ -42,7 +42,7 @@ void ThirdPalette()
 void FourthPalette()
 {
   CRGB c1 = CHSV(HUE_YELLOW, 255, 255);
-  CRGB c2 = CHSV(HUE_PINK, 255, 255);
+  CRGB c2 = CHSV(HUE_PINK, 200, 255);
   fill_solid( currentPalette, 16, CRGB::Black);
   currentPalette[0] = c1;
   currentPalette[2] = c2;

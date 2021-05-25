@@ -1,7 +1,7 @@
 #include <Wire.h>
 
 #include <FastLED.h>
-int currpal = 3;        // This one is the palette by default (the aestethicc one)
+int currpal = 4;        // This one is the palette by default (the aestethicc one)
 int maxPalette = 4;     // This is the number of registrered palette we got
 int argbSwitch = 5;     // This is the command of the relay
 
