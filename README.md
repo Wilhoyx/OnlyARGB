@@ -1,4 +1,6 @@
 # OnlyARGB
-Arduino led strip control
+Arduino led strip control (WS2812)
 
-This repo is the source of argbfanXgetcurrent ( https://github.com/Kahloyx/argbfanXgecurrent/ ). I will put here only the argb code for the ledstrip without the ina219 part, there's more leds to power and to control, so the arduino code might change.
+This repo a fork of argbfanXgetcurrent ( https://github.com/Kahloyx/argbfanXgecurrent/ ).
+
+		This fork was made for a friend that want to control arduino's cycle with a button instead of a serial USB connection like I do.
