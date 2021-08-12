@@ -8,7 +8,7 @@
 int paletteSwitch = 3; // Pin du button de changement de palette
 int buttonState;
 int lastButtonState = LOW;
-long bouncing = 300;    // Temps d'appui sur le button pour eviter que la sortie ne yoyotte
+long bouncing = 300; // Temps d'appui sur le button pour eviter que la sortie ne yoyotte
 
 #define LED_PIN 5       // Pin de signal des leds
 #define NUM_LEDS 60     // Nombre de leds sur la bande
@@ -74,36 +74,35 @@ void loop()
 
   lastButtonState = buttonState;
 
-  if (currpal == 1)
+  switch (currpal)
   {
+  case 1:
     FirstPalette();
     startIndex = startIndex + 1; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
-  }
+    break;
 
-  if (currpal == 2)
-  {
+  case 2:
     SecondPalette();
     startIndex = startIndex + 1; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
-  }
+    break;
 
-  if (currpal == 3)
-  {
+  case 3:
     ThirdPalette();
-  }
+    break;
 
-  if (currpal == 4)
-  {
+  case 4:
     FourthPalette();
     startIndex = startIndex + 1; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
+    break;
+
+  default:
+    currpal = 1;
+    break;
   }
 
-  if (currpal > maxPalette)
-  { // Retour a la premiere palette
-    currpal = 1;
-  }
   FastLED.show();
   FastLED.delay(120 / UPDATES_PER_SECOND);
 
