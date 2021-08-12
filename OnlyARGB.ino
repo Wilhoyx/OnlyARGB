@@ -1,9 +1,9 @@
 #include <Wire.h>
 #include <FastLED.h>
 
-#define currpal = 4    // Numero de la palette de depart
-#define maxPalette = 4 // Nombre de palettes disponibles
-#define argbSwitch = 5 // Broche d'alimentation des leds
+int currpal = 4;    // Numero de la palette de depart
+int maxPalette = 4; // Nombre de palettes disponibles
+int argbSwitch = 5; // Broche d'alimentation des leds
 
 int paletteSwitch = 3; // Pin du button de changement de palette
 int buttonState;
@@ -62,7 +62,7 @@ void loop()
   buttonState = digitalRead(paletteSwitch);
 
   // Si le button est appuye assez longtemps on incremente la selection de palette
-  if (buttonState == HIGH && lastButtonState == LOW && millis() - time > debounce)
+  if (buttonState == HIGH && lastButtonState == LOW && millis() > debounce)
   {
     if (state == HIGH)
       currpal = currpal + 1;
