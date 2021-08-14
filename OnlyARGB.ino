@@ -78,13 +78,13 @@ void loop()
   {
   case 1:
     FirstPalette();
-    startIndex = startIndex + 1; /* motion speed */
+    startIndex ++; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
     break;
 
   case 2:
     SecondPalette();
-    startIndex = startIndex + 1; /* motion speed */
+    startIndex ++; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
     break;
 
@@ -94,7 +94,7 @@ void loop()
 
   case 4:
     FourthPalette();
-    startIndex = startIndex + 1; /* motion speed */
+    startIndex ++; /* motion speed */
     FillLEDsFromPaletteColors(startIndex);
     break;
 

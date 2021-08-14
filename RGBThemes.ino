@@ -35,7 +35,7 @@ void SecondPalette()                 // What I got in This Function is a half an
 }
 void ThirdPalette()
 {
-  fill_solid(leds, 60, CRGB(255, 0, 188));
+  fill_solid(leds, 60, CRGB( 200, 0, 200));
   FastLED.show();
 }
 
