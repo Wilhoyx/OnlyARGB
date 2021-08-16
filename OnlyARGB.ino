@@ -58,21 +58,21 @@ void setup()
 void loop()
 {
   static uint8_t startIndex = 0;
+  
+  // Button part
 
   buttonState = digitalRead(paletteSwitch);
 
   // Si le button est appuye assez longtemps on incremente la selection de palette
-  if (buttonState == HIGH && lastButtonState == LOW && millis() > debounce)
-  {
-    if (state == HIGH)
-      currpal = currpal + 1;
-    else
-      state = HIGH;
-
-    time = millis();
+  if (buttonState == HIGH) {
+    delay(100);
+    if (buttonState ==HIGH) {
+      currpal++;
+    }
   }
-
-  lastButtonState = buttonState;
+  if (currpal > maxPalette) {
+    currpal = 1;
+  }
 
   switch (currpal)
   {
